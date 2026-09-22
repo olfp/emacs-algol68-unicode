@@ -3,7 +3,7 @@
 Based on the idea:
 https://gist.github.com/lassehp/00dd99f1ec8992e07a727f57d760930d
 
-[Screenshot on XFCE Mousepad with pretty Algol68 code]([assets/Emacs-Algol68-Pretty.png](https://olfp.github.io/assets/Emacs-Algol68-Pretty.png))
+<img src="https://olfp.github.io/assets/Emacs-Algol68-Pretty.png"/>
 
 To include in your config add
 ```
