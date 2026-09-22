@@ -1,6 +1,6 @@
 # ALGOL 68 Unicode Publishing Language Mode for Emacs
 
-Alogol68, which has recently (2026) experienced a revival, has different written representations. One is the ‚publishing language‘ which was used in the official publications to print programs:
+Algol68, which has recently (2026) experienced a revival, has different written representations. One is the ‚publishing language‘ which was used in the official publications to print programs:
 
     𝐩𝐫𝐨𝐜 𝑛𝑒𝑥𝑡 𝑢𝑛𝑖𝑐𝑜𝑑𝑒 𝑐ℎ𝑎𝑟 𝑙𝑒𝑛𝑔𝑡ℎ = (𝐬𝐭𝐫𝐢𝐧𝐠 𝑠, 𝐢𝐧𝐭 𝑝𝑜𝑠) 𝐢𝐧𝐭: 𝐛𝐞𝐠𝐢𝐧
         𝐢𝐟 𝑝𝑜𝑠 > 𝐮𝐩𝐛 𝑠 𝐭𝐡𝐞𝐧 0 𝐞𝐥𝐢𝐟 𝐚𝐛𝐬 𝑠[𝑝𝑜𝑠] < 128 𝐭𝐡𝐞𝐧 1
@@ -32,7 +32,7 @@ While 50+ years have passed, we still write code in plain ASCII - while sice 20+
 Github user lassehp published the idea using the MathBold and MathItalic glyphs available in Unicode to represent Algol68 code:
 (https://gist.github.com/lassehp/00dd99f1ec8992e07a727f57d760930d)
 
-For studying Algol68 in a pretty way, I chose to ask Gemini to write me an emacs config so I can write Algol68 code in this notation. This can then be converted by the program written by lassehp into UPPER stropped Algol68 code suitable for the compiler.
+For studying Algol68 in a pretty way, I chose to ask Gemini to write me an emacs config, so I can write Algol68 code in this notation. This can then be converted by the program written by lassehp into UPPER stropped Algol68 code suitable for the compiler.
 
 ![Emacs with pretty Alhol68](https://olfp.github.io/assets/Emacs-Algol68-Pretty.png)
 
@@ -40,6 +40,6 @@ To include in your config add
 ```
 (load (expand-file-name "algol68/unicode.el" user-emacs-directory))
 ``` 
-to your `.emacs` or ˋinit.elˋ after placing the ˋ.elˋ files in ˋ.emacs.d/algol68ˋ .
+to your `.emacs` or `init.el` after placing the `.el` files in `.emacs.d/algol68` .
 
-When editing a file with ˋ.u68ˋ extension (for Unicode-stropped-Alogol68), bold and italics are auto-applied and you can also convert words to bold/italic with C-c b, C-c i and back to normal with C-c n.
+When editing a file with `.u68` extension (for Unicode-stropped-Algol68), bold and italics are auto-applied and you can also convert words to bold/italic with C-c b, C-c i and back to normal with C-c n.
