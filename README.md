@@ -15,7 +15,7 @@ Algol68, which has recently (2026) experienced a revival, has different written 
 
 In Algol68, keywords and identifiers live in separate namespaces (lightly speaking) and need to be cleary separated. 
 
-But the hardware available in the last ‘60s did not allow entering programs this way. So several representations suitable for being written with 7-bit or even 6-bit characters were the norm. When bold/italic is not available, other means are needed to mark the ‚bold-words‘, this is called ‚stropping‘. Ther is UPPER-stropping:
+But the hardware available in the late ‘60s did not allow entering programs this way (we are talking of cards and tape). So several representations suitable for being written with 7-bit or even 6-bit characters were the norm. When bold/italic is not available, other means are needed to mark the ‚bold-words‘, this is called ‚stropping‘. There is UPPER-stropping:
 
     PROC next unicode char length = (STRING s, INT pos) INT: BEGIN
 
