@@ -40,6 +40,6 @@ To include in your config add
 ```
 (load (expand-file-name "algol68/unicode.el" user-emacs-directory))
 ```
-to your .emacs or init.el.
+to your ˋ.emacsˋ or ˋinit.elˋ after placing the ˋ.elˋ files in ˋ.emacs.d/algol68ˋ .
 
-When editing a file with .u68 extension (for Unicode-stropped-Alogol68), bold and italics are auto-applied and you can also convert words to bold/italic with C-c b, C-c i and back to normal with C-c n.
+When editing a file with ˋ.u68ˋ extension (for Unicode-stropped-Alogol68), bold and italics are auto-applied and you can also convert words to bold/italic with C-c b, C-c i and back to normal with C-c n.
