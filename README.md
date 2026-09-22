@@ -19,11 +19,11 @@ But the hardware available in the last ‘60s did not allow entering programs th
 
     PROC next unicode char length = (STRING s, INT pos) INT: BEGIN
 
-or, when no lower case is available, there is Dot-stropping
+or, when no lower case is available, there is Dot-stropping:
 
     .PROC NEXT UNICODE CHAR LENGTH = (.STRING S, .INT POS) .INT: .BEGIN
 
-or
+or Quote-stropping, which I find especially appaling:
 
     ‘PROC‘ next unicode char length = (‘STRING‘ s, ‘INT‘ pos) ‘INT‘: ‘BEGIN‘
 
