@@ -1,0 +1,13 @@
+# Temporäre Backup-Dateien von Emacs ignorieren
+*~
+\#*\#
+.\#*
+
+# Temporäre Entwicklungs-Dateien ignorieren
+*.new
+*.bak
+*.tmp
+
+# Mac-spezifische Systemdateien ignorieren
+.DS_Store
+
