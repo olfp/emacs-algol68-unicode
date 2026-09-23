@@ -12,10 +12,12 @@
         (load full-path)
       (message "WARNUNG: Algol68-Modul nicht gefunden: %s" full-path))))
 
-;; Lädt alle fünf Teildateien ohne feste Pfade
+;; Lädt alle sechs Teildateien ohne feste Pfade aus dem aktuellen Verzeichnis
 (algol68-load-module "unicode68.1.el")
 (algol68-load-module "unicode68.2.el")
 (algol68-load-module "unicode68.3.el")
 (algol68-load-module "unicode68.4.el")
 (algol68-load-module "unicode68.5.el")
+(algol68-load-module "unicode68.6.el") ;; Hier sicher und fehlerfrei geladen!
 
+(provide 'unicode)
