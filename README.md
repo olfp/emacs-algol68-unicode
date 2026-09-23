@@ -42,4 +42,4 @@ To include in your config add
 ``` 
 to your `.emacs` or `init.el` after placing the `.el` files in `.emacs.d/algol68` .
 
-When editing a file with `.u68` extension (for Unicode-stropped-Algol68), bold and italics are auto-applied and you can also convert words to bold/italic with C-c b, C-c i and back to normal with C-c n.
+When editing a file with `.u68` extension (for Unicode-stropped-Algol68), bold and italics are auto-applied and you can also convert words to bold/italic with C-c b, C-c i and back to normal with C-c n. Special case was taken that searching also works with the MathBold/MathItalic charactes. So when you sreach for 'proc' instances of 𝐩𝐫𝐨𝐜 are found, and when searching for "result", 𝑟𝑒𝑠𝑢𝑙𝑡 ios found.
