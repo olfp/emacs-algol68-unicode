@@ -36,6 +36,8 @@ For studying Algol68 in a pretty way, I chose to ask Gemini to write me an emacs
 
 ![Emacs with pretty Alhol68](https://olfp.github.io/assets/Emacs-Algol68-Pretty.png)
 
+# How to use
+
 To include in your config add
 ```
 (load (expand-file-name "algol68/unicode68.el" user-emacs-directory))
@@ -49,3 +51,11 @@ For inserting the special Symbols for boolean operators, you can type && for ∧
 Btw. on a Mac keyboard Option-4 inserts ¢ and Option-0 inserts ≠.
 
 Special case was taken that searching also works with the MathBold/MathItalic charactes. So when you sreach for 'proc' instances of 𝐩𝐫𝐨𝐜 are found, and when searching for "result", 𝑟𝑒𝑠𝑢𝑙𝑡 is found.
+
+The Python script `u682a68` converts Algol68 code written in Unicode-stropping into UPPER-stropping the complier can digest:
+```
+$ u682a68 <demo.u68 >demo.a68
+```
+Have fun!
+
+
