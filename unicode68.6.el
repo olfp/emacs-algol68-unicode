@@ -1,58 +1,54 @@
-;;; unicode68.6.el --- Transparent Isearch for Algol68 Unicode Glyphs -*- lexical-binding: t; -*-
+(require 'char-fold)
 
-(require 'isearch)
-(require 'cl-lib)
+(defun my-algol68-setup-char-fold-include ()
+  "Trägt die Algol68 MathBold und MathItalic Paare nativ in char-fold-include ein."
+  (let ((i 0))
+    (while (< i 26)
+      (let* ((char-lower (+ ?a i))
+             (char-upper (+ ?A i))
+             ;; Mathematische Unicode-Codepoints berechnen
+             (mb-lower (+ 119808 i))
+             (mb-upper (+ 119782 i))
+             (mi-lower (if (= i 7) #x210e (+ 119860 i)))
+             (mi-upper (+ 119834 i)))
 
-(defun unicode68-math-transform-regexp (string &optional _lax)
-  "Transformiert einen ASCII-Suchstring in eine Regex, die ASCII ODER MathBold ODER MathItalic findet."
-  (let ((regexp ""))
-    (cl-loop for char across string
-             do (let* ((ch (string char))
-                       (code (string-to-char ch)))
-                  (cond
-                   ;; Buchstaben (a-z, A-Z) -> Findet ASCII ODER MathBold ODER MathItalic
-                   ((or (and (>= code ?a) (<= code ?z))
-                        (and (>= code ?A) (<= code ?Z)))
-                    (let* ((is-lower (and (>= code ?a) (<= code ?z)))
-                           ;; Fetter Unicode-Codepoint (𝐚)
-                           (bold-code (if is-lower (+ #x1D41A (- code ?a)) (+ #x1D400 (- code ?A))))
-                           ;; Kursiver Unicode-Codepoint (𝑎), Ausnahme 'h' -> #x210E
-                           (italic-code (if (and is-lower (= code ?h))
-                                           #x210E
-                                         (if is-lower (+ #x1D44E (- code ?a)) (+ #x1D434 (- code ?A))))))
-                      ;; CRUCIAL FIX: Erst in Strings wandeln, dann via %s einsetzen! Prevents encoding corruption.
-                      (setq regexp (concat regexp (format "\\(%s\\|%s\\|%s\\)" 
-                                                          (regexp-quote ch) 
-                                                          (string bold-code) 
-                                                          (string italic-code))))))
-                   ;; Ziffern (0-9) -> Findet ASCII ODER fett
-                   ((and (>= code ?0) (<= code ?9))
-                    (let ((bold-digit (+ #x1D7CE (- code ?0))))
-                      (setq regexp (concat regexp (format "\\(%s\\|%s\\)" 
-                                                          (regexp-quote ch) 
-                                                          (string bold-digit))))))
-                   ;; Alles andere bleibt geschützt
-                   (t (setq regexp (concat regexp (regexp-quote ch)))))))
-    regexp))
+        ;; 1. Kleinbuchstaben zu char-fold-include hinzufügen
+        (let ((existing-lower (assoc char-lower char-fold-include)))
+          (if existing-lower
+              ;; Falls ein Eintrag existiert, hängen wir unsere Zeichen als Strings an
+              (let ((current-list (cdr existing-lower)))
+                (unless (member (char-to-string mb-lower) current-list)
+                  (nconc existing-lower (list (char-to-string mb-lower))))
+                (unless (member (char-to-string mi-lower) current-list)
+                  (nconc existing-lower (list (char-to-string mi-lower)))))
+            ;; Falls kein Eintrag existiert, legen wir ihn neu an
+            (push (list char-lower (char-to-string mb-lower) (char-to-string mi-lower))
+                  char-fold-include)))
 
-(defun unicode68-isearch-search-fun ()
-  "Gibt die mathematisch transformierte Suchfunktion an das Isearch-System zurück."
-  (lambda (string &optional bound noerror count)
-    (let ((transformed (unicode68-math-transform-regexp string)))
-      (if isearch-forward
-          (re-search-forward transformed bound noerror count)
-        (re-search-backward transformed bound noerror count)))))
+        ;; 2. Großbuchstaben zu char-fold-include hinzufügen
+        (let ((existing-upper (assoc char-upper char-fold-include)))
+          (if existing-upper
+              (let ((current-list (cdr existing-upper)))
+                (unless (member (char-to-string mb-upper) current-list)
+                  (nconc existing-upper (list (char-to-string mb-upper))))
+                (unless (member (char-to-string mi-upper) current-list)
+                  (nconc existing-upper (list (char-to-string mi-upper)))))
+            (push (list char-upper (char-to-string mb-upper) (char-to-string mi-upper))
+                  char-fold-include))))
+      (setq i (1+ i))))
 
-(defun unicode68-isearch-setup-hook ()
-  "Aktiviert die mathematische Suche nativ und zwingt Isearch in den Regex-Modus."
-  ;; Greift, wenn wir uns im Algol68-Unicode-Modus befinden
-  (when (eq major-mode 'unicode68-mode)
-    (setq isearch-regexp t)
-    (setq isearch-regexp-function nil)
-    (setq-local isearch-search-fun-function #'unicode68-isearch-search-fun)))
+  ;; Zwinge Emacs, die Tabelle basierend auf char-fold-include komplett neu zu backen
+  (setq char-fold-table (char-fold--make-table)))
 
-;; Aktiviert die transparente Suche nativ im globalen Isearch-System von Emacs
-(add-hook 'isearch-mode-hook #'unicode68-isearch-setup-hook)
+;; Starte die Konfiguration
+(my-algol68-setup-char-fold-include)
+
+;; Wichtige Komfort-Einstellungen für die Suche:
+;; Aktiviert die Faltung standardmäßig für die inkrementelle Suche (C-s)
+(setq search-default-mode 'char-fold-to-regexp)
+
+;; Erlaubt es, dass die Suche in BEIDE Richtungen funktioniert 
+;; (Sucht man nach einem fetten '𝐩', findet Emacs auch das normale 'p')
+(setq char-fold-symmetric t)
 
 (provide 'unicode68.6)
-;;; unicode68.6.el ends here
