@@ -48,4 +48,4 @@ For inserting the special Symbols for boolean operators, you can type && for ∧
 
 Btw. on a Mac keyboard Option-4 inserts ¢ and Option-0 inserts ≠.
 
-Special case was taken that searching also works with the MathBold/MathItalic charactes. So when you sreach for 'proc' instances of 𝐩𝐫𝐨𝐜 are found, and when searching for "result", 𝑟𝑒𝑠𝑢𝑙𝑡 ios found.
+Special case was taken that searching also works with the MathBold/MathItalic charactes. So when you sreach for 'proc' instances of 𝐩𝐫𝐨𝐜 are found, and when searching for "result", 𝑟𝑒𝑠𝑢𝑙𝑡 is found.
