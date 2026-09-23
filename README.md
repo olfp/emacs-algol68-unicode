@@ -38,7 +38,7 @@ For studying Algol68 in a pretty way, I chose to ask Gemini to write me an emacs
 
 To include in your config add
 ```
-(load (expand-file-name "algol68/unicode.el" user-emacs-directory))
+(load (expand-file-name "algol68/unicode68.el" user-emacs-directory))
 ``` 
 to your `.emacs` or `init.el` after placing the `.el` files in `.emacs.d/algol68` .
 
