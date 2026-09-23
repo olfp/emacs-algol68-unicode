@@ -34,9 +34,9 @@ Github user lassehp published the idea using the MathBold and MathItalic glyphs 
 
 For studying Algol68 in a pretty way, I chose to ask Gemini to write me an emacs config, so I can write Algol68 code in this notation. This can then be converted by the program written by lassehp into UPPER stropped Algol68 code suitable for the compiler.
 
-<div align="left">
-![Emacs with pretty Algol68](https://olfp.github.io/assets/Emacs-Algol68-Pretty.png)
-</div>
+<p align="left">
+  <img src="https://olfp.github.io/assets/Emacs-Algol68-Pretty.png" width="650" alt="Emacs with pretty Algol68">
+</p>
 
 # How to use
 
