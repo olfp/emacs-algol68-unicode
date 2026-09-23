@@ -1,36 +1,38 @@
 ;;; unicode68.6.el --- Transparent Isearch for Algol68 Unicode Glyphs -*- lexical-binding: t; -*-
 
 (require 'isearch)
+(require 'cl-lib)
 
 (defun unicode68-math-transform-regexp (string &optional lax)
-  "Transformiert einen ASCII-Suchstring in eine Regex für MathBold/MathItalic."
+  "Transformiert einen ASCII-Suchstring in eine Regex, die MathBold ODER MathItalic findet."
   (let ((regexp ""))
     (cl-loop for char across string
              do (let* ((ch (string char))
                        (code (string-to-char ch)))
                   (cond
-                   ;; 1. Keywords / MathBold Kleinbuchstaben (a-z -> 𝐚-𝐳)
-                   ((and (>= code ?a) (<= code ?z))
-                    (setq regexp (concat regexp (format "[%s%c]" ch (+ #x1D41A (- code ?a))))))
-                   ;; 2. Keywords / MathBold Großbuchstaben (A-Z -> 𝐀-𝐙)
-                   ((and (>= code ?A) (<= code ?Z))
-                    (setq regexp (concat regexp (format "[%s%c]" ch (+ #x1D400 (- code ?A))))))
-                   ;; 3. Variablen / MathItalic Kleinbuchstaben (a-z -> 𝑎-𝑧)
-                   ;; Ausnahme für 'h' -> Planck-Konstante U+210E
-                   ((and (>= code ?a) (<= code ?z))
-                    (let ((italic-ch (if (= code ?h) #x210E (+ #x1D44E (- code ?a)))))
-                      (setq regexp (concat regexp (format "[%s%c]" ch italic-ch)))))
-                   ;; 4. Variablen / MathItalic Großbuchstaben (A-Z -> 𝐴-𝑍)
-                   ((and (>= code ?A) (<= code ?Z))
-                    (setq regexp (concat regexp (format "[%s%c]" ch (+ #x1D434 (- code ?A))))))
-                   ;; Alles andere bleibt im Regex unverändert
+                   ;; Buchstaben (a-z, A-Z) können fett (Keyword) ODER kursiv (Variable) sein!
+                   ((or (and (>= code ?a) (<= code ?z))
+                        (and (>= code ?A) (<= code ?Z)))
+                    (let* ((is-lower (and (>= code ?a) (<= code ?z)))
+                           ;; Berechne fetten Codepoint
+                           (bold-ch (if is-lower (+ #x1D41A (- code ?a)) (+ #x1D400 (- code ?A))))
+                           ;; Berechne kursiven Codepoint (Ausnahme für kleines 'h' -> Planck-Konstante U+210E)
+                           (italic-ch (if (and is-lower (= code ?h))
+                                          #x210E
+                                        (if is-lower (+ #x1D44E (- code ?a)) (+ #x1D434 (- code ?A))))))
+                      ;; Generiert eine Regex-Gruppe, z.B. [b\|𝐛\|𝑏] für den Buchstaben b
+                      (setq regexp (concat regexp (format "\\(%s\\|%c\\|%c\\)" ch bold-ch italic-ch)))))
+                   ;; Ziffern (0-9) können fett sein
+                   ((and (>= code ?0) (<= code ?9))
+                    (setq regexp (concat regexp (format "\\(%s\\|%c\\)" ch (+ #x1D7CE (- code ?0))))))
+                   ;; Alles andere (Satzzeichen, Operatoren) bleibt im Regex normal geschützt
                    (t (setq regexp (concat regexp (regexp-quote ch)))))))
     (if lax (concat regexp "\\b") regexp)))
 
 (defun unicode68-isearch-search-fun ()
   "Gibt die angepasste Suchfunktion für den isearch-Mechanismus zurück."
   (lambda (string &optional bound noerror count)
-    (let ((isearch-regexp t) ;; Erzwinge Regex-Suche im Hintergrund
+    (let ((isearch-regexp t)
           (isearch-regexp-function nil)
           (transformed (unicode68-math-transform-regexp string)))
       (isearch-search-string transformed bound noerror count))))
